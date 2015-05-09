@@ -1,0 +1,4 @@
+C:\Users\Unidev\Documents\GitHub\opennui-csharp-library\bin\Release\OpenNUI.CSharp.Library.dll
+C:\Users\Unidev\Documents\GitHub\opennui-csharp-library\bin\Release\OpenNUI.CSharp.Library.pdb
+C:\Users\Unidev\Documents\GitHub\opennui-csharp-library\obj\Release\OpenNUI.CSharp.Library.dll
+C:\Users\Unidev\Documents\GitHub\opennui-csharp-library\obj\Release\OpenNUI.CSharp.Library.pdb
