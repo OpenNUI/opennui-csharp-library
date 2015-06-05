@@ -49,7 +49,7 @@ namespace OpenNUI.CSharp.Library.Channel
                         data = new short[size / sizeof(short)];
                         _mappedFileAccessor.Write<int>(sizeof(int) * BlockCount + (_sensor.DepthInfo.Size + sizeof(int)) * i, ref _zero);
                         Marshal.Copy((IntPtr)(_mappedPointer + sizeof(int) * BlockCount + 
-                            (_sensor.DepthInfo.Size + sizeof(int)) * i + sizeof(int)), data, 0, _sensor.DepthInfo.Size);
+                            (_sensor.DepthInfo.Size + sizeof(int)) * i + sizeof(int)), data, 0, _sensor.DepthInfo.Size / sizeof(short));
                     }
                     Interlocked.Exchange(ref *lockDatas[i], 0);
                     break;
