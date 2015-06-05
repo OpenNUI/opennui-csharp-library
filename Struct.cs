@@ -171,11 +171,17 @@ namespace OpenNUI.CSharp.Library
     }
     public class DepthData
     {
-        public byte[] FrameData { get; private set; }
+        public ushort[] FrameData { get; private set; }
         public DepthInfo Description { get; private set; }
-        internal DepthData(byte[] data, DepthInfo info)
+        internal DepthData(short[] data, DepthInfo info)
         {
-            this.FrameData = data;
+            this.FrameData = new ushort[data.Length];
+            int index = 0;
+            foreach (short value in data)
+            {
+                this.FrameData[index] = (ushort)value;
+                index++;
+            }
             this.Description = info;
         }
     }

@@ -34,9 +34,9 @@ namespace OpenNUI.CSharp.Library.Channel
             _mappedFileAccessor.SafeMemoryMappedViewHandle.ReleasePointer();
             _mappedFile.Dispose();
         }
-        internal bool Read(out byte[] data)
+        internal bool Read(out short[] data)
         {
-            data = new byte[0];
+            data = new short[0];
             for (int i = 0; i < BlockCount; i++)
             {
                 if (Interlocked.CompareExchange(ref *lockDatas[i], 1, 0) == 0)
@@ -46,7 +46,7 @@ namespace OpenNUI.CSharp.Library.Channel
 
                     if (size > 0)
                     {
-                        data = new byte[size];
+                        data = new short[size / sizeof(short)];
                         _mappedFileAccessor.Write<int>(sizeof(int) * BlockCount + (_sensor.DepthInfo.Size + sizeof(int)) * i, ref _zero);
                         Marshal.Copy((IntPtr)(_mappedPointer + sizeof(int) * BlockCount + 
                             (_sensor.DepthInfo.Size + sizeof(int)) * i + sizeof(int)), data, 0, _sensor.DepthInfo.Size);

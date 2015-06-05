@@ -57,4 +57,3 @@ namespace OpenNUI.CSharp.Library.Channel
         }
     }
 }
-

@@ -88,7 +88,7 @@ namespace OpenNUI.CSharp.Library
         }
         public DepthData GetDepthFrame()
         {
-            byte[] data = new byte[0];
+            short[] data = new short[0];
             if (!_depthOpend) // 열기 시도도 안함
                 throw new Exception("GetDepthFrame호출 전에 OpenDepthrame를 호출해주세요.");
 
@@ -98,7 +98,7 @@ namespace OpenNUI.CSharp.Library
             if (State == SensorState.UNKNOWN)
                 throw new Exception("센서가 닫혀있습니다.");
 
-            _colorChannel.Read(out data);
+            _depthChannel.Read(out data);
 
             if (data.Length > 0)
                 return new DepthData(data, DepthInfo);
