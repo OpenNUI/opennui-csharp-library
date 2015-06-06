@@ -3,3 +3,8 @@ C:\Users\Unidev\Documents\GitHub\opennui-csharp-library\bin\Debug\OpenNUI.CSharp
 C:\Users\Unidev\Documents\GitHub\opennui-csharp-library\obj\Debug\OpenNUI.CSharp.Library.dll
 C:\Users\Unidev\Documents\GitHub\opennui-csharp-library\obj\Debug\OpenNUI.CSharp.Library.pdb
 C:\Users\Unidev\Documents\GitHub\opennui-csharp-library\obj\Debug\OpenNUI.CSharp.Library.csprojResolveAssemblyReference.cache
+D:\SW Maestro\2단계\Library\Cs\opennui-csharp-library\obj\Debug\OpenNUI.CSharp.Library.csprojResolveAssemblyReference.cache
+D:\SW Maestro\2단계\Library\Cs\opennui-csharp-library\bin\Debug\OpenNUI.CSharp.Library.dll
+D:\SW Maestro\2단계\Library\Cs\opennui-csharp-library\bin\Debug\OpenNUI.CSharp.Library.pdb
+D:\SW Maestro\2단계\Library\Cs\opennui-csharp-library\obj\Debug\OpenNUI.CSharp.Library.dll
+D:\SW Maestro\2단계\Library\Cs\opennui-csharp-library\obj\Debug\OpenNUI.CSharp.Library.pdb

@@ -91,6 +91,30 @@ namespace OpenNUI.CSharp.Library
             return "(" + x.ToString() + "," + y.ToString() + "," + z.ToString() + ")";
         }
     }
+    public struct Vector2
+    {
+        public double x;
+        public double y;
+        public Vector2(double x, double y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        public override string ToString()
+        {
+            return "(" + x.ToString() + "," + y.ToString() + ")";
+        }
+
+        public static Vector2 operator +(Vector2 op1, Vector2 op2)
+        {
+            return new Vector2(op1.x + op2.x, op1.y + op2.y);
+        }
+        public static Vector2 operator -(Vector2 op1, Vector2 op2)
+        {
+            return new Vector2(op1.x - op2.x, op1.y - op2.y);
+        }
+
+    }
     public struct Joint
     {
         public readonly Vector3 position;
@@ -139,16 +163,43 @@ namespace OpenNUI.CSharp.Library
     }
     public struct DepthInfo
     {
-        public int Width;
-        public int Height;
-        public int BytePerPixel;
+        public readonly bool EnableCoordinate;
+
+        internal readonly double JointDepthXMult;
+        internal readonly double JointDepthXFix;
+        internal readonly double JointDepthYMult;
+        internal readonly double JointDepthYFix;
+        internal readonly double DepthToJointZMult;
+
+        public readonly int Width;
+        public readonly int Height;
+        public readonly int BytePerPixel;
+        public readonly short MinValue;
+        public readonly short MaxValue;
+
         public int Size { get { return Width * Height * BytePerPixel; } }
 
-        public DepthInfo(int width, int height, int bpp)
+        public DepthInfo(int width, int height, short MinValue, short MaxValue, int bpp,
+            bool EnableCoordinate = false,
+            double JointDepthXMult = 0, double JointDepthXFix = 0,
+            double JointDepthYMult = 0, double JointDepthYFix = 0,
+            double DepthToJointZMult = 0)
         {
             Width = width;
             Height = height;
             BytePerPixel = bpp;
+            this.MinValue = MinValue;
+            this.MaxValue = MaxValue;
+
+            //Coordinate
+            this.EnableCoordinate = EnableCoordinate;
+
+            this.JointDepthXMult = JointDepthXMult;
+            this.JointDepthXFix = JointDepthXFix;
+            this.JointDepthYMult = JointDepthYMult;
+            this.JointDepthYFix = JointDepthYFix;
+
+            this.DepthToJointZMult = DepthToJointZMult;
         }
     }
     public struct BodyInfo

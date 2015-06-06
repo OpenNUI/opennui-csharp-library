@@ -9,7 +9,7 @@ namespace OpenNUI.CSharp.Library
     public class NuiSensor
     {
         private NuiApplication _app;
-        public int SensorId { get; private set; }
+        public int Id { get; private set; }
         public string Name { get; private set; }
         public string Vendor { get; private set; }
         public SensorState State { get; private set; }
@@ -27,15 +27,61 @@ namespace OpenNUI.CSharp.Library
         public ColorInfo ColorInfo { get; private set; }
         public DepthInfo DepthInfo { get; private set; }
         public BodyInfo BodyInfo { get; private set; }
-        
-        internal NuiSensor(NuiApplication app, int sensorId, string name, string vendor, SensorState State, ColorInfo color, DepthInfo depth, BodyInfo body)
+
+        internal NuiSensor(NuiApplication nuiApp, string name, string company, int id, SensorState state,
+                       int colorFrameWidth, int colorFrameHeight, int colorbpp, int depthFrameWidth, int depthFrameHeight, int depthbpp, int maxtrackingbody)
         {
-            _app = app;
-            SensorId = sensorId;
-            ColorInfo = color;
-            DepthInfo = depth;
-            BodyInfo = body;
+            this._app = nuiApp;
+
+            this.Name = name;
+            this.Vendor = company;
+            this.Id = id;
+            this.State = state;
+
+
+            bool EnableCoordinate = false;
+
+            double JointDepthXMult = 0;
+            double JointDepthXFix = 0;
+            double JointDepthYMult = 0;
+            double JointDepthYFix = 0;
+            double DepthToJointZMult = 0;
+
+            //나중엔 uID 로 처리하던가 해야함.
+            switch (name)
+            {
+                case "Kinect":
+                    EnableCoordinate = true;
+
+                    JointDepthXMult = 1.85;
+                    JointDepthXFix = 0;
+                    JointDepthYMult = 1.9;
+                    JointDepthYFix = 0.13;
+                    DepthToJointZMult = 0.00123;
+                    break;
+
+                case "Kinect2":
+                    EnableCoordinate = true;
+
+                    JointDepthXMult = 1.5;
+                    JointDepthXFix = 0;
+                    JointDepthYMult = 1.45;
+                    JointDepthYFix = 0.085;
+                    DepthToJointZMult = 0.00107;
+                    break;
+            }
+
+            ColorInfo = new ColorInfo(colorFrameWidth, colorFrameHeight, colorbpp);
+
+            if (EnableCoordinate)
+                DepthInfo = new DepthInfo(depthFrameWidth, depthFrameHeight, short.MinValue, short.MaxValue, depthbpp,
+                    EnableCoordinate,
+                    JointDepthXMult, JointDepthXFix, JointDepthYMult, JointDepthYFix,
+                    DepthToJointZMult);
+            else
+                DepthInfo = new DepthInfo(depthFrameWidth, depthFrameHeight, short.MinValue, short.MaxValue, depthbpp);
         }
+
         public void ChangeStatus(SensorState status)
         {
             State = status;
@@ -44,7 +90,7 @@ namespace OpenNUI.CSharp.Library
         public void OpenColorFrame()
         {
             MessageWriter message = new MessageWriter(CTSHeader.REQUEST_COLOR_FRAME);
-            message.WriteInt(SensorId);
+            message.WriteInt(Id);
             _app.SendData(message);
 
             _colorOpend = true;
@@ -52,7 +98,7 @@ namespace OpenNUI.CSharp.Library
         public void OpenDepthFrame()
         {
             MessageWriter message = new MessageWriter(CTSHeader.REQUEST_DEPTH_FRAME);
-            message.WriteInt(SensorId);
+            message.WriteInt(Id);
             _app.SendData(message);
 
             _depthOpend = true;
@@ -60,7 +106,7 @@ namespace OpenNUI.CSharp.Library
         public void OpenBodyFrame()
         {
             MessageWriter message = new MessageWriter(CTSHeader.REQUEST_BODY_FRAME);
-            message.WriteInt(SensorId);
+            message.WriteInt(Id);
             _app.SendData(message);
 
             _bodyOpend = true;

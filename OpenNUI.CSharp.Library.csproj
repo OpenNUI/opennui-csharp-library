@@ -46,6 +46,7 @@
     <Compile Include="Channel\IChannel.cs" />
     <Compile Include="NuiApplication.cs" />
     <Compile Include="Header.cs" />
+    <Compile Include="NuiCoordinate.cs" />
     <Compile Include="NuiSensor.cs" />
     <Compile Include="Stream\IMessageStream.cs" />
     <Compile Include="Stream\IPCStream.cs" />

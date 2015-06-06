@@ -155,24 +155,38 @@ namespace OpenNUI.CSharp.Library
             else
                 throw new Exception("Body Frame를 열 수 없습니다.");
         }
+
+        private NuiSensor MakeSensor(MessageReader reader)
+        {
+            int sensorId = reader.ReadInt();
+            string name = reader.ReadString();
+            string vendor = reader.ReadString();
+            SensorState state = (SensorState)reader.ReadInt();
+            int colorWidth = reader.ReadInt();
+            int colorHeight = reader.ReadInt();
+            int colorBpp = reader.ReadInt();
+            int depthWidth = reader.ReadInt();
+            int depthHeight = reader.ReadInt();
+            int depthBpp = reader.ReadInt();
+            int maxTrackingNumber = reader.ReadInt();
+
+            NuiSensor sensor = new NuiSensor(this, name, vendor, sensorId, state, colorWidth, colorHeight, colorBpp, depthWidth, depthHeight, depthBpp, maxTrackingNumber);
+            return sensor;
+        }
+
+        //NuiApplication app, int sensorId, string name, string vendor, SensorState State, ColorInfo color, DepthInfo depth, BodyInfo body
         private void ReceiveNewSensorInfo(MessageReader reader)
         {
-            NuiSensor sensor = new NuiSensor(this,
-                             reader.ReadInt(),
-                             reader.ReadString(),
-                             reader.ReadString(), (SensorState)reader.ReadInt(),
-                             new ColorInfo(reader.ReadInt(), reader.ReadInt(), reader.ReadInt()),
-                             new DepthInfo(reader.ReadInt(), reader.ReadInt(), reader.ReadInt()),
-                             new BodyInfo(reader.ReadInt()));
+            NuiSensor sensor = MakeSensor(reader);
 
-            if (!_sensors.ContainsKey(sensor.SensorId))
+            if (!_sensors.ContainsKey(sensor.Id))
             {
                 sensor.ChangeStatus(SensorState.OPENED);
 
                 if (OnSensorConnected != null)
                     OnSensorConnected.Invoke(sensor);
 
-                _sensors.Add(sensor.SensorId, sensor);
+                _sensors.Add(sensor.Id, sensor);
             }
         }
         private void ReceiveChangedSensorInfo(MessageReader reader)
@@ -199,20 +213,14 @@ namespace OpenNUI.CSharp.Library
             int sensorCount = reader.ReadInt();
             for (int i = 0; i < sensorCount; i++)
             {
-                NuiSensor sensor = new NuiSensor(this,
-                    reader.ReadInt(),
-                    reader.ReadString(),
-                    reader.ReadString(), (SensorState)reader.ReadInt(),
-                    new ColorInfo(reader.ReadInt(), reader.ReadInt(), reader.ReadInt()),
-                    new DepthInfo(reader.ReadInt(), reader.ReadInt(), reader.ReadInt()),
-                    new BodyInfo(reader.ReadInt()));
+                NuiSensor sensor = MakeSensor(reader);
 
                 sensor.ChangeStatus(SensorState.OPENED);
 
                 if (OnSensorConnected != null)
                     OnSensorConnected.Invoke(sensor);
 
-                _sensors.Add(sensor.SensorId, sensor);
+                _sensors.Add(sensor.Id, sensor);
             }
         }
 

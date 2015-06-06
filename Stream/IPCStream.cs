@@ -37,7 +37,7 @@ namespace OpenNUI.CSharp.Library
                     new AsyncCallback(OnDataReceived),
                     socketInfo);
             }
-            catch (Exception se)
+            catch
             {
               
                 if (OnClientDisconnected != null)
