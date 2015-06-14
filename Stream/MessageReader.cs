@@ -5,7 +5,7 @@ using System.IO;
 
 namespace OpenNUI.CSharp.Library
 {
-    public class MessageReader
+    class MessageReader
     {
         private MemoryStream _buffer;
         private readonly BinaryReader _binReader;

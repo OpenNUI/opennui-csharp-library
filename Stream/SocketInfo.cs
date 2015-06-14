@@ -6,7 +6,7 @@ using System.IO.Pipes;
 
 namespace OpenNUI.CSharp.Library
 {
-    public class SocketInfo
+    class SocketInfo
     {
         public readonly Socket Socket;
         public readonly NamedPipeClientStream Pipeline;

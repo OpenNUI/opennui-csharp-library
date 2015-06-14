@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OpenNUI.CSharp.Library
 {
-    public enum STCHeader : short
+    enum STCHeader : short
     {
         REQUEST_PLATFORM_TYPE = 0x0001,
         REQUEST_PIPE_CONNECTION = 0x0002,
@@ -17,7 +17,7 @@ namespace OpenNUI.CSharp.Library
         SEND_CHANGED_SENSOR_INFO = 0x0009,
         SEND_TRIGGER_EVENT_DATA = 0x0010,
     }
-    public enum CTSHeader : short
+    enum CTSHeader : short
     {
         HELLO_ACK = 0x0001,
         READY_CONNECTION_ACK = 0x0002,

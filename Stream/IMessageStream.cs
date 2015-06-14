@@ -4,10 +4,10 @@ using System.Text;
 
 namespace OpenNUI.CSharp.Library
 {
-    public delegate void MessageReceivedHandler(MessageReader message);
-    public delegate void StreamDisconnectedHandler(IMessageStream socket);
+    delegate void MessageReceivedHandler(MessageReader message);
+    delegate void StreamDisconnectedHandler(IMessageStream socket);
 
-    public interface IMessageStream
+    interface IMessageStream
     {
         event StreamDisconnectedHandler OnClientDisconnected;
         event MessageReceivedHandler OnMessageReceived;

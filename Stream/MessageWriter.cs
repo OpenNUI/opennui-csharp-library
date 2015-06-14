@@ -5,7 +5,7 @@ using System.IO;
 
 namespace OpenNUI.CSharp.Library
 { 
-    public class MessageWriter
+    class MessageWriter
     {
         private readonly BinaryWriter _binWriter;
         private MemoryStream _buffer;

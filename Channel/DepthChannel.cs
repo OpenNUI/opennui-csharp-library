@@ -8,7 +8,7 @@ using System.IO.MemoryMappedFiles;
 
 namespace OpenNUI.CSharp.Library.Channel
 {
-    public unsafe class DepthChannel : IChannel
+    unsafe class DepthChannel : IChannel
     {
         [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
         public static unsafe extern void* CopyMemory(void* dest, void* src, ulong count);

@@ -24,6 +24,10 @@ namespace OpenNUI.CSharp.Library
 
         private BodyData[] _lastSkeletonFrame;
 
+        public bool ColorFrameAuthority { get; private set; }
+        public bool DepthFrameAuthority { get; private set; }
+        public bool BodyFrameAuthority { get; private set; }
+
         public ColorInfo ColorInfo { get; private set; }
         public DepthInfo DepthInfo { get; private set; }
         public BodyInfo BodyInfo { get; private set; }
@@ -95,7 +99,7 @@ namespace OpenNUI.CSharp.Library
             message.WriteInt(Id);
             _app.SendData(message);
 
-            _colorOpend = true;
+            ColorFrameAuthority = _colorOpend = true;
         }
         public void OpenDepthFrame()
         {
@@ -103,7 +107,7 @@ namespace OpenNUI.CSharp.Library
             message.WriteInt(Id);
             _app.SendData(message);
 
-            _depthOpend = true;
+            ColorFrameAuthority = _depthOpend = true;
         }
         public void OpenBodyFrame()
         {
@@ -111,7 +115,7 @@ namespace OpenNUI.CSharp.Library
             message.WriteInt(Id);
             _app.SendData(message);
 
-            _bodyOpend = true;
+            ColorFrameAuthority = _bodyOpend = true;
         }
 
         public ImageData GetColorFrame()

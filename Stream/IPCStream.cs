@@ -5,7 +5,7 @@ using System.IO.Pipes;
 
 namespace OpenNUI.CSharp.Library
 {
-    public class IPCStream : IMessageStream
+    class IPCStream : IMessageStream
     {
         public event StreamDisconnectedHandler OnClientDisconnected;
         public event MessageReceivedHandler OnMessageReceived;

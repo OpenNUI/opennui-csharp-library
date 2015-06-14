@@ -6,7 +6,7 @@ using System.IO;
 
 namespace OpenNUI.CSharp.Library
 {
-    public enum EventType : int
+    enum EventType : int
     {
         HandStatusChange,
         HandPositionChange,
@@ -256,7 +256,7 @@ namespace OpenNUI.CSharp.Library
             this.RightHand = rightHand;
         }
     }
-    public class EventData
+    class EventData
     {
         public const int EVENT_DATA_SIZE = 260;
         public EventType EventType { get; private set; }

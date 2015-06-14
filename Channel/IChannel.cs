@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OpenNUI.CSharp.Library.Channel
 {
-    public interface IChannel
+    interface IChannel
     {
         void Close();
     }

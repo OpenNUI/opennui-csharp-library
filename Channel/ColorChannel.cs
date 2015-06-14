@@ -10,7 +10,7 @@ using System.IO.MemoryMappedFiles;
 
 namespace OpenNUI.CSharp.Library.Channel
 {
-    public unsafe class ColorChannel : IChannel
+    unsafe class ColorChannel : IChannel
     {
         [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
         public static unsafe extern void* CopyMemory(void* dest, void* src, ulong count);

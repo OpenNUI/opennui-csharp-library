@@ -5,7 +5,7 @@ using System.Net.Sockets;
 
 namespace OpenNUI.CSharp.Library
 {
-    public class TCPStream : IMessageStream
+    class TCPStream : IMessageStream
     {
         public event StreamDisconnectedHandler OnClientDisconnected;
         public event MessageReceivedHandler OnMessageReceived;

@@ -6,3 +6,7 @@ D:\SW Maestro\2단계\Library\Cs\opennui-csharp-library\bin\Release\OpenNUI.CSha
 D:\SW Maestro\2단계\Library\Cs\opennui-csharp-library\bin\Release\OpenNUI.CSharp.Library.pdb
 D:\SW Maestro\2단계\Library\Cs\opennui-csharp-library\obj\Release\OpenNUI.CSharp.Library.dll
 D:\SW Maestro\2단계\Library\Cs\opennui-csharp-library\obj\Release\OpenNUI.CSharp.Library.pdb
+D:\SW Maestro\2단계\Library\Cs\bin\Release\OpenNUI.CSharp.Library.dll
+D:\SW Maestro\2단계\Library\Cs\bin\Release\OpenNUI.CSharp.Library.pdb
+D:\SW Maestro\2단계\Library\Cs\obj\Release\OpenNUI.CSharp.Library.dll
+D:\SW Maestro\2단계\Library\Cs\obj\Release\OpenNUI.CSharp.Library.pdb
