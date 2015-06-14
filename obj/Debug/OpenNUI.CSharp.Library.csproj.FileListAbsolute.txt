@@ -8,3 +8,8 @@ D:\SW Maestro\2단계\Library\Cs\opennui-csharp-library\bin\Debug\OpenNUI.CSharp
 D:\SW Maestro\2단계\Library\Cs\opennui-csharp-library\bin\Debug\OpenNUI.CSharp.Library.pdb
 D:\SW Maestro\2단계\Library\Cs\opennui-csharp-library\obj\Debug\OpenNUI.CSharp.Library.dll
 D:\SW Maestro\2단계\Library\Cs\opennui-csharp-library\obj\Debug\OpenNUI.CSharp.Library.pdb
+D:\SW Maestro\2단계\Library\Cs\bin\Debug\OpenNUI.CSharp.Library.dll
+D:\SW Maestro\2단계\Library\Cs\bin\Debug\OpenNUI.CSharp.Library.pdb
+D:\SW Maestro\2단계\Library\Cs\obj\Debug\OpenNUI.CSharp.Library.csprojResolveAssemblyReference.cache
+D:\SW Maestro\2단계\Library\Cs\obj\Debug\OpenNUI.CSharp.Library.dll
+D:\SW Maestro\2단계\Library\Cs\obj\Debug\OpenNUI.CSharp.Library.pdb

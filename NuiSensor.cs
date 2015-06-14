@@ -29,7 +29,7 @@ namespace OpenNUI.CSharp.Library
         public BodyInfo BodyInfo { get; private set; }
 
         internal NuiSensor(NuiApplication nuiApp, string name, string company, int id, SensorState state,
-                       int colorFrameWidth, int colorFrameHeight, int colorbpp, int depthFrameWidth, int depthFrameHeight, int depthbpp, int maxtrackingbody)
+                       int colorFrameWidth, int colorFrameHeight, int colorbpp, int depthFrameWidth, int depthFrameHeight, int depthbpp, int maxTrackingbody)
         {
             this._app = nuiApp;
 
@@ -80,6 +80,8 @@ namespace OpenNUI.CSharp.Library
                     DepthToJointZMult);
             else
                 DepthInfo = new DepthInfo(depthFrameWidth, depthFrameHeight, short.MinValue, short.MaxValue, depthbpp);
+
+            BodyInfo = new BodyInfo(maxTrackingbody);
         }
 
         public void ChangeStatus(SensorState status)
