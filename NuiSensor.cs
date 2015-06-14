@@ -123,11 +123,9 @@ namespace OpenNUI.CSharp.Library
                 return null;
 
             if (State == SensorState.UNKNOWN)
-                throw new Exception("센서가 닫혀있습니다.");
+                throw new Exception("센서가 닫혀있습니다."); 
 
-            _colorChannel.Read(out data);
-
-            if (data.Length > 0)
+            if (_colorChannel.Read(out data) && data.Length > 0)
                 return new ImageData(data, this.ColorInfo);
 
             return null;
@@ -143,10 +141,8 @@ namespace OpenNUI.CSharp.Library
 
             if (State == SensorState.UNKNOWN)
                 throw new Exception("센서가 닫혀있습니다.");
-
-            _depthChannel.Read(out data);
-
-            if (data.Length > 0)
+             
+            if (_depthChannel.Read(out data) && data.Length > 0)
                 return new DepthData(data, DepthInfo);
 
             return null;

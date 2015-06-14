@@ -12,6 +12,9 @@ namespace OpenNUI.CSharp.Library.Channel
 {
     public unsafe class ColorChannel : IChannel
     {
+        [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
+        public static unsafe extern void* CopyMemory(void* dest, void* src, ulong count);
+
         public const int BlockCount = 3;
 
         int zero = 0;
@@ -20,6 +23,7 @@ namespace OpenNUI.CSharp.Library.Channel
         private byte* MappedPointer;
         private int*[] lockDatas;
         private NuiSensor _sensor;
+        private long _stamp;
         public ColorChannel(string mappedName, NuiSensor sensor)
         {
             _sensor = sensor;
@@ -30,6 +34,7 @@ namespace OpenNUI.CSharp.Library.Channel
             lockDatas = new int*[BlockCount];
             for (int i = 0; i < BlockCount; i++)
                 lockDatas[i] = (int*)(sizeof(int) * i + MappedPointer);
+
         }
         public void Close()
         {
@@ -38,27 +43,29 @@ namespace OpenNUI.CSharp.Library.Channel
         }
         public bool Read(out byte[] data)
         {
-            data = new byte[0];
+            bool result = false;
+            data = new byte[_sensor.ColorInfo.Size];
             for (int i = 0; i < BlockCount; i++)
             {
                 if (Interlocked.CompareExchange(ref *lockDatas[i], 1, 0) != 0)
                     continue;
 
-                int size = 0;
-                mappedFileAccessor.Read<int>(sizeof(int) * BlockCount + (_sensor.ColorInfo.Size + sizeof(int)) * i, out size);
-
-                if (size > 0)
+                long stamp = *((long*)(MappedPointer + sizeof(int) * BlockCount + (_sensor.ColorInfo.Size + sizeof(long)) * i));
+                if (_stamp < stamp)
                 {
-                    data = new byte[size];
-                    mappedFileAccessor.Write<int>(sizeof(int) * BlockCount + (_sensor.ColorInfo.Size + sizeof(int)) * i, ref zero);
-
-                    Marshal.Copy((IntPtr)(MappedPointer + sizeof(int) * BlockCount + (_sensor.ColorInfo.Size + sizeof(int)) * i + sizeof(int)), data, 0, _sensor.ColorInfo.Size);
+                    fixed (byte* dest = &data[0])
+                    {
+                        CopyMemory(dest, MappedPointer + sizeof(int) * BlockCount + (_sensor.ColorInfo.Size + sizeof(long)) * i + sizeof(long),
+                             (ulong)_sensor.ColorInfo.Size
+                            );
+                    }
+                    _stamp = stamp;
+                    result = true;
                 }
                 Interlocked.Exchange(ref *lockDatas[i], 0);
-                break;
-
+                return result;
             }
-            return data.Length > 0;
+            return result;
         }
     }
 }

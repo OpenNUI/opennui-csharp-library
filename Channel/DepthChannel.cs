@@ -10,6 +10,9 @@ namespace OpenNUI.CSharp.Library.Channel
 {
     public unsafe class DepthChannel : IChannel
     {
+        [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
+        public static unsafe extern void* CopyMemory(void* dest, void* src, ulong count);
+
         private const int BlockCount = 3;
 
         private int _zero = 0;
@@ -18,6 +21,7 @@ namespace OpenNUI.CSharp.Library.Channel
         private byte* _mappedPointer;
         private int*[] lockDatas;
         private NuiSensor _sensor;
+        private long _stamp;
         public DepthChannel(string mappedName, NuiSensor sensor)
         {
             _sensor = sensor;
@@ -36,26 +40,30 @@ namespace OpenNUI.CSharp.Library.Channel
         }
         internal bool Read(out short[] data)
         {
-            data = new short[0];
+            bool result = false;
+            data = new short[_sensor.DepthInfo.Size / sizeof(short)];
             for (int i = 0; i < BlockCount; i++)
             {
-                if (Interlocked.CompareExchange(ref *lockDatas[i], 1, 0) == 0)
-                {
-                    int size = 0;
-                    _mappedFileAccessor.Read<int>(sizeof(int) * BlockCount + (_sensor.DepthInfo.Size + sizeof(int)) * i, out size);
+                if (Interlocked.CompareExchange(ref *lockDatas[i], 1, 0) != 0)
+                    continue;
 
-                    if (size > 0)
+                long stamp = *((long*)(_mappedPointer + sizeof(int) * BlockCount + (_sensor.DepthInfo.Size + sizeof(long)) * i));
+                if (_stamp < stamp)
+                {
+                    fixed (short* dest = &data[0])
                     {
-                        data = new short[size / sizeof(short)];
-                        _mappedFileAccessor.Write<int>(sizeof(int) * BlockCount + (_sensor.DepthInfo.Size + sizeof(int)) * i, ref _zero);
-                        Marshal.Copy((IntPtr)(_mappedPointer + sizeof(int) * BlockCount + 
-                            (_sensor.DepthInfo.Size + sizeof(int)) * i + sizeof(int)), data, 0, _sensor.DepthInfo.Size / sizeof(short));
+                        CopyMemory(dest, _mappedPointer + sizeof(int) * BlockCount + (_sensor.DepthInfo.Size + sizeof(long)) * i + sizeof(long),
+                             (ulong)_sensor.DepthInfo.Size
+                            );
                     }
-                    Interlocked.Exchange(ref *lockDatas[i], 0);
-                    break;
+                    _stamp = stamp;
+                    result = true;
                 }
+                Interlocked.Exchange(ref *lockDatas[i], 0);
+                return result;
             }
-            return data.Length > 0;
+            return result;
+
         }
     }
 }
