@@ -13,6 +13,9 @@ namespace OpenNUI.CSharp.Library
         public delegate void SensorDisconnectHandler(NuiSensor sensor);
         public delegate void HandStatusChangeHandler(JointType type, HandStatus status);
         public delegate void FaceDataChangeHandler(int x, int y, int width, int height);
+        public delegate void UserCustomEventHandler(EventData e);
+
+
 
         public delegate void EventHandler();
 
@@ -22,6 +25,8 @@ namespace OpenNUI.CSharp.Library
         public event SensorDisconnectHandler OnSensorDisconnected;
         public event HandStatusChangeHandler OnHandStatusChanged;
         public event FaceDataChangeHandler OnFaceDataChanged;
+        public event UserCustomEventHandler OnUserCustomEvent;
+
 
         private IPCStream _messageStream;
         private string _appName;
@@ -45,7 +50,7 @@ namespace OpenNUI.CSharp.Library
             _lifeStream.OnClientDisconnected += _lifeStream_OnClientDisconnected;
         }
 
-       private void _lifeStream_OnMessageReceived(MessageReader reader)
+        private void _lifeStream_OnMessageReceived(MessageReader reader)
         {
             STCHeader header = (STCHeader)reader.ReadShort();
             switch (header)
@@ -68,12 +73,12 @@ namespace OpenNUI.CSharp.Library
                     break;
             }
         }
-       private void _lifeStream_OnClientDisconnected(IMessageStream socket)
+        private void _lifeStream_OnClientDisconnected(IMessageStream socket)
         {
             if (OnFail != null)
                 OnFail();
         }
-       private void _messageStream_OnMessageReceived(MessageReader reader)
+        private void _messageStream_OnMessageReceived(MessageReader reader)
         {
             STCHeader header = (STCHeader)reader.ReadShort();
             switch (header)
@@ -88,7 +93,7 @@ namespace OpenNUI.CSharp.Library
                 case STCHeader.SEND_ALL_SENSOR_INFO:
                     ReceiveAllSensorInfo(reader); break;
                 case STCHeader.SEND_NEW_SENSOR_INFO:
-                   ReceiveNewSensorInfo(reader); break;
+                    ReceiveNewSensorInfo(reader); break;
                 case STCHeader.SEND_CHANGED_SENSOR_INFO:
                     ReceiveChangedSensorInfo(reader); break;
 
@@ -97,7 +102,7 @@ namespace OpenNUI.CSharp.Library
                     break;
             }
         }
-       private void _messageStream_OnClientDisconnected(IMessageStream socket)
+        private void _messageStream_OnClientDisconnected(IMessageStream socket)
         {
             if (OnFail != null)
                 OnFail();
@@ -122,6 +127,10 @@ namespace OpenNUI.CSharp.Library
                             BitConverter.ToInt32(e.Data, 4),
                             BitConverter.ToInt32(e.Data, 8),
                             BitConverter.ToInt32(e.Data, 12));
+                    break;
+                case EventType.UserCustom:
+                    if (OnUserCustomEvent != null)
+                        OnUserCustomEvent(e);
                     break;
             }
         }

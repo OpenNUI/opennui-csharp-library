@@ -256,7 +256,7 @@ namespace OpenNUI.CSharp.Library
             this.RightHand = rightHand;
         }
     }
-    class EventData
+  public  class EventData
     {
         public const int EVENT_DATA_SIZE = 260;
         public EventType EventType { get; private set; }

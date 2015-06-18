@@ -35,6 +35,10 @@ namespace OpenNUI.CSharp.Library
         internal NuiSensor(NuiApplication nuiApp, string name, string company, int id, SensorState state,
                        int colorFrameWidth, int colorFrameHeight, int colorbpp, int depthFrameWidth, int depthFrameHeight, int depthbpp, int maxTrackingbody)
         {
+            this.ColorFrameAuthority = false;
+            this.DepthFrameAuthority = false;
+            this.BodyFrameAuthority = false;
+
             this._app = nuiApp;
 
             this.Name = name;
@@ -93,29 +97,29 @@ namespace OpenNUI.CSharp.Library
             State = status;
         }
 
-        public void OpenColorFrame()
+        public bool OpenColorFrame()
         {
             MessageWriter message = new MessageWriter(CTSHeader.REQUEST_COLOR_FRAME);
             message.WriteInt(Id);
             _app.SendData(message);
 
-            ColorFrameAuthority = _colorOpend = true;
+            return ColorFrameAuthority = _colorOpend = true;
         }
-        public void OpenDepthFrame()
+        public bool OpenDepthFrame()
         {
             MessageWriter message = new MessageWriter(CTSHeader.REQUEST_DEPTH_FRAME);
             message.WriteInt(Id);
             _app.SendData(message);
 
-            ColorFrameAuthority = _depthOpend = true;
+            return DepthFrameAuthority = _depthOpend = true;
         }
-        public void OpenBodyFrame()
+        public bool OpenBodyFrame()
         {
             MessageWriter message = new MessageWriter(CTSHeader.REQUEST_BODY_FRAME);
             message.WriteInt(Id);
             _app.SendData(message);
 
-            ColorFrameAuthority = _bodyOpend = true;
+            return BodyFrameAuthority = _bodyOpend = true;
         }
 
         public ImageData GetColorFrame()
