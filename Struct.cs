@@ -6,7 +6,7 @@ using System.IO;
 
 namespace OpenNUI.CSharp.Library
 {
-    enum EventType : int
+    public enum EventType : int
     {
         HandStatusChange,
         HandPositionChange,
